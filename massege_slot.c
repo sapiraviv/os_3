@@ -158,6 +158,7 @@ static ssize_t device_read( struct file* file, char __user* buffer,size_t length
            return -EINVAL;
        }
     }
+    return i;
 }
 //=============== File SETUP =============== //
 
