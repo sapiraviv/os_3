@@ -4,6 +4,7 @@
 #include <sys/ioctl.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
 #include "message_slot.h"
 
 int main(int argc, char *argv[]){
