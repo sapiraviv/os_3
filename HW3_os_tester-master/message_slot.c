@@ -79,10 +79,13 @@ void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node
 static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsigned long ioctl_param ){
     ms_file *node;
     ms_channel *curr_chanel, *prev, *old_first;
+    ms_file **node_pointer;
     if ( (ioctl_param == 0) || (ioctl_command_id != MSG_SLOT_CHANNEL) ){
         printk("The passed params to ioctl is invalid");
         return -EINVAL;
     }
+    node_pointer = (ms_file **)(file->private_data);
+    node = *node_pointer;
     node = (ms_file *)(file->private_data);
     curr_chanel = (node->first);
     old_first = curr_chanel;
@@ -112,7 +115,10 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
 static ssize_t device_write( struct file*  file,const char __user* buffer, size_t  length, loff_t*  offset){
     int i, j;
     char the_message[BUF_LEN];
-    ms_file *node =  (ms_file *)(file->private_data);
+    ms_file *node;
+    ms_file **node_pointer;
+    node_pointer = (ms_file **)(file->private_data);
+    node = *node_pointer;
     ms_channel *channel = node->first;
     if (channel == NULL ){
         printk("No channel has been set to the fd");
@@ -139,7 +145,10 @@ static ssize_t device_write( struct file*  file,const char __user* buffer, size_
 
 static ssize_t device_read( struct file* file, char __user* buffer,size_t length, loff_t* offset ){
     int i;
-    ms_file *node =  (ms_file *)(file->private_data);
+    ms_file *node;
+    ms_file **node_pointer;
+    node_pointer = (ms_file **)(file->private_data);
+    node = *node_pointer;
     ms_channel *channel = node->first;
     if (channel == NULL ){
        printk("No channel has been set to the fd");
