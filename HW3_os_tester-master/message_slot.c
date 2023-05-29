@@ -119,7 +119,8 @@ static ssize_t device_write( struct file*  file,const char __user* buffer, size_
     ms_file **node_pointer;
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
-    ms_channel *channel = node->first;
+    ms_channel *channel;
+    channel = node->first;
     if (channel == NULL ){
         printk("No channel has been set to the fd");
         return -EINVAL;
@@ -149,7 +150,8 @@ static ssize_t device_read( struct file* file, char __user* buffer,size_t length
     ms_file **node_pointer;
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
-    ms_channel *channel = node->first;
+    ms_channel *channel;
+    channel = node->first;
     if (channel == NULL ){
        printk("No channel has been set to the fd");
        return -EINVAL;
