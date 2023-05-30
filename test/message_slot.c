@@ -65,13 +65,13 @@ static int device_release( struct inode* inode, struct file*  file){
     }
 }
 
-void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node, ms_channel *old_first){
+void make_first_channel(ms_channel **curr_chanel, ms_channel **prev, ms_file *node, ms_channel **old_first){
     node->first = curr_chanel;
-    if (old_first == NULL){
+    if (*old_first == NULL){
         return;
     }
-    prev->next = curr_chanel->next;
-    curr_chanel->next = old_first;
+    (*prev)->next = curr_chanel->next;
+    (*curr_chanel)->next = old_first;
 
 }
 
@@ -88,14 +88,14 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     prev = curr_chanel;
     if (  curr_chanel == NULL){
         allocate_new_channel(&curr_chanel, ioctl_param);
-        make_first_channel(curr_chanel, NULL, node, NULL);
+        make_first_channel(&curr_chanel, NULL, node, NULL);
         return SUCCESS;
     }
     else{
         while ( curr_chanel != NULL ){
             printk("curr id %ld/n", curr_chanel->id);
             if (curr_chanel->id == ioctl_param){
-                make_first_channel(curr_chanel, prev, node, old_first);
+                make_first_channel(&curr_chanel, &prev, node, &old_first);
                 return SUCCESS;
             }
             else{
@@ -104,7 +104,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
             }
         }
         allocate_new_channel(&curr_chanel, ioctl_param);
-        make_first_channel(curr_chanel, prev, node, old_first);
+        make_first_channel(&curr_chanel, &prev, node, &old_first);
         return SUCCESS;
     }
 }
