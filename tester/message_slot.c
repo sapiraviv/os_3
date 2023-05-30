@@ -72,6 +72,7 @@ static int device_release( struct inode* inode, struct file*  file){
 
 
 
+
 void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node, ms_channel *old_first){
     printk("*******************************************make_first_channel-1*******************************************");
     node->first = curr_chanel;
