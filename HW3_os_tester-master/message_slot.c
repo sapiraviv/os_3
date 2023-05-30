@@ -213,7 +213,7 @@ static void __exit simple_cleanup(void)
     ms_channel *next;
     for(i=0; i<257; i++){
         curr = msDriver->all_files[i].first;
-        while (current != NULL){
+        while (curr != NULL){
         prev = curr;
         next = curr->next;
         curr = next;
