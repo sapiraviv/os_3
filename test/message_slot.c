@@ -103,7 +103,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
                 if(curr_chanel == NULL){
                     printk("NULL");
                 }
-                printk("id : %ld/n", curr_chanel);
+                printk("id : %ld/n", curr_chanel->id);
             }
         }
         allocate_new_channel(&curr_chanel, ioctl_param);
