@@ -54,21 +54,20 @@ static int device_release( struct inode* inode, struct file*  file){
     return SUCCESS;
 }
 
- int allocate_new_channel(ms_channel **curr_chanel, unsigned long ioctl_param) {
+int allocate_new_channel(ms_channel **curr_channel, unsigned long ioctl_param) {
     printk("*******************************************allocate_new_channel-1*******************************************");
-    *curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
-    if (*curr_chanel == NULL) {
+    *curr_channel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
+    if (*curr_channel == NULL) {
         printk("memory allocation failed");
         return -ENOMEM;
     } else {
-        (*curr_chanel)->next = NULL;
-        (*curr_chanel)->id = ioctl_param;
-        memset((*curr_chanel)->message, 0, sizeof((*curr_chanel)->message));
-        (*curr_chanel)->message_len = 0;
+        memset(*curr_channel, 0, sizeof(ms_channel));
+        (*curr_channel)->id = ioctl_param;
         return 0;
     }
     printk("*******************************************allocate_new_channel-2*******************************************");
 }
+
 
 
 
