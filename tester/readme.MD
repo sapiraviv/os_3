@@ -99,3 +99,8 @@ One the reader and sinder are compiled, and the driver is loaded, run the tester
 This tester might ensure more than what was required. It checks the receiver and sender output and expects to
 see the correct error messages which means that it assumes you're using perror/strerror
 and that your driver correctly sets the errno.
+
+
+sudo apt update
+sudo apt install make
+sudo apt install linux-headers-$(uname -r)
