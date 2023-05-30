@@ -115,11 +115,11 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
 static ssize_t device_write( struct file*  file,const char __user* buffer, size_t  length, loff_t*  offset){
     int i, j;
     char the_message[BUF_LEN];
+    ms_channel *channel;
     ms_file *node;
     ms_file **node_pointer;
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
-    ms_channel *channel;
     channel = node->first;
     if (channel == NULL ){
         printk("No channel has been set to the fd");
@@ -148,9 +148,9 @@ static ssize_t device_read( struct file* file, char __user* buffer,size_t length
     int i;
     ms_file *node;
     ms_file **node_pointer;
+    ms_channel *channel;
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
-    ms_channel *channel;
     channel = node->first;
     if (channel == NULL ){
        printk("No channel has been set to the fd");
