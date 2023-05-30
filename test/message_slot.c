@@ -93,7 +93,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
-            printk("curr id %s/n", curr_channel->id);
+            printk("curr id %s/n", curr_chanel->id);
             if (curr_chanel->id == ioctl_param){
                 make_first_channel(curr_chanel, prev, node, old_first);
                 return SUCCESS;
