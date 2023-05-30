@@ -244,7 +244,7 @@ static void __exit simple_cleanup(void)
     ms_channel *curr;
     ms_channel *prev;
     ms_channel *next;
-    ms_file* f_;
+    ms_file f_;
     printk("*******************************************simple_cleanup-1*******************************************");
     for(i=0; i<257; i++){
         f_ = msDriver->all_files[i];
