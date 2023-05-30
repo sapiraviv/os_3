@@ -52,6 +52,7 @@ static int device_release( struct inode* inode, struct file*  file){
 }
 
  int allocate_new_channel (ms_channel **curr_chanel, unsigned long ioctl_param){
+     print("******************")
     *curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
     if (*curr_chanel == NULL){
         printk("memory allocation failed");
