@@ -249,7 +249,7 @@ static void __exit simple_cleanup(void)
     for(i=0; i<257; i++){
         f_ = &msDriver->all_files[i];
         if (f_ != NULL){
-            curr = f_.first;
+            curr = f_->first;
             while (curr != NULL){
                prev = curr;
                next = curr->next;
