@@ -211,13 +211,17 @@ static void __exit simple_cleanup(void)
     ms_channel *curr;
     ms_channel *prev;
     ms_channel *next;
+    ms_file *f_;
     for(i=0; i<257; i++){
-        curr = msDriver->all_files[i].first;
-        while (curr != NULL){
-        prev = curr;
-        next = curr->next;
-        curr = next;
-        kfree(prev);
+        f_ = &msDriver->all_files[i];
+        if (f_ != NULL){
+            curr = f_->first;
+            while (curr != NULL){
+               prev = curr;
+               next = curr->next;
+               curr = next;
+               kfree(prev);
+            }
         }
     }
     kfree(msDriver);
