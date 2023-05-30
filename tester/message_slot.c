@@ -87,54 +87,58 @@ void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node
 
 
 
-static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsigned long ioctl_param ){
-
+static long device_ioctl(struct file* file, unsigned int ioctl_command_id, unsigned long ioctl_param) {
     ms_file *node;
-    ms_channel *curr_chanel, *prev, *old_first;
+    ms_channel *curr_channel, *prev, *old_first;
     ms_file **node_pointer;
+
     printk("*******************************************device_ioctl-1*******************************************");
-    if ( (ioctl_param == 0) || (ioctl_command_id != MSG_SLOT_CHANNEL) ){
+    
+    if ((ioctl_param == 0) || (ioctl_command_id != MSG_SLOT_CHANNEL)) {
         printk("*******************************************device_ioctl-2*******************************************");
         printk("The passed params to ioctl is invalid");
         return -EINVAL;
     }
+    
     printk("*******************************************1*******************************************");
+    
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
     node = (ms_file *)(file->private_data);
-    curr_chanel = (node->first);
-    old_first = curr_chanel;
-    prev = curr_chanel;
+    curr_channel = (node->first);
+    old_first = curr_channel;
+    prev = curr_channel;
+    
     printk("*******************************************2*******************************************");
-    if (  curr_chanel == NULL){
+    
+    if (curr_channel == NULL) {
         printk("*******************************************3*******************************************");
-        allocate_new_channel(&curr_chanel, ioctl_param);
-        make_first_channel(curr_chanel, NULL, node, NULL);
+        allocate_new_channel(&curr_channel, ioctl_param);
+        make_first_channel(curr_channel, NULL, node, NULL);
         printk("*******************************************device_ioctl-2*******************************************");
         return SUCCESS;
-    }
-    else{
-        while ( curr_chanel != NULL ){
+    } else {
+        while (curr_channel != NULL) {
             printk("*******************************************4*******************************************");
-            if (curr_chanel->id == ioctl_param){
+            if (curr_channel->id == ioctl_param) {
                 printk("*******************************************5*******************************************");
-                make_first_channel(curr_chanel, prev, node, old_first);
+                make_first_channel(curr_channel, prev, node, old_first);
                 printk("*******************************************device_ioctl-2*******************************************");
                 return SUCCESS;
-            }
-            else{
+            } else {
                 printk("*******************************************6*******************************************");
-                prev = curr_chanel;
-                curr_chanel = curr_chanel->next;
+                prev = curr_channel;
+                curr_channel = curr_channel->next;
             }
         }
         printk("*******************************************7*******************************************");
-        allocate_new_channel(&curr_chanel, ioctl_param);
-        make_first_channel(curr_chanel, prev, node, old_first);
+        allocate_new_channel(&curr_channel, ioctl_param);
+        make_first_channel(curr_channel, prev, node, old_first);
         printk("*******************************************device_ioctl-2*******************************************");
         return SUCCESS;
     }
 }
+
 
 static ssize_t device_write( struct file*  file,const char __user* buffer, size_t  length, loff_t*  offset){
 
