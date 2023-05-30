@@ -51,26 +51,15 @@ static int device_release( struct inode* inode, struct file*  file){
     return SUCCESS;
 }
 
- int allocate_new_channel (ms_channel **curr_chanel, unsigned long ioctl_param){
-    *curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
-    if (*curr_chanel == NULL){
-        printk("memory allocation failed");
-        return -ENOMEM;
-    }
-    else{
-        (*curr_chanel)->next = NULL;
-        (*curr_chanel)->id = ioctl_param;
-        (*curr_chanel)->message_len = 0;
-        return 0;
-    }
-}
-
 void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node, ms_channel *old_first){
     node->first = curr_chanel;
     if (old_first == NULL){
         return;
     }
     prev->next = curr_chanel->next;
+    if (curr_chanel->next == NULL){
+        return;
+    }
     curr_chanel->next = old_first;
 
 }
@@ -87,7 +76,16 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     old_first = curr_chanel;
     prev = curr_chanel;
     if (  curr_chanel == NULL){
-        allocate_new_channel(&curr_chanel, ioctl_param);
+        curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
+        if (curr_chanel == NULL){
+           printk("memory allocation failed");
+           return -ENOMEM;
+         }
+        else{
+          curr_chanel->next = NULL;
+          curr_chanel->id = ioctl_param;
+          curr_chanel->message_len = 0;
+        }
         make_first_channel(curr_chanel, NULL, node, NULL);
         return SUCCESS;
     }
@@ -100,9 +98,19 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
             else{
                 prev = curr_chanel;
                 curr_chanel = prev->next;
+             
             }
         }
-        allocate_new_channel(&curr_chanel, ioctl_param);
+        curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
+        if (curr_chanel == NULL){
+           printk("memory allocation failed");
+           return -ENOMEM;
+         }
+        else{
+          curr_chanel->next = NULL;
+          curr_chanel->id = ioctl_param;
+          curr_chanel->message_len = 0;
+        }
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
