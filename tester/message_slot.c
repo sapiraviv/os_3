@@ -244,10 +244,11 @@ static void __exit simple_cleanup(void)
     ms_channel *curr;
     ms_channel *prev;
     ms_channel *next;
+    ms_file* f_;
     printk("*******************************************simple_cleanup-1*******************************************");
     for(i=0; i<257; i++){
-
-        if (msDriver->all_files[i] != NULL){
+        f_ = msDriver->all_files[i];
+        if (f_ != NULL){
             curr = msDriver->all_files[i].first;
             while (curr != NULL){
                prev = curr;
