@@ -94,13 +94,16 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
         printk("The passed params to ioctl is invalid");
         return -EINVAL;
     }
+    printk("*******************************************1*******************************************");
     node_pointer = (ms_file **)(file->private_data);
     node = *node_pointer;
     node = (ms_file *)(file->private_data);
     curr_chanel = (node->first);
     old_first = curr_chanel;
     prev = curr_chanel;
+    printk("*******************************************2*******************************************");
     if (  curr_chanel == NULL){
+        printk("*******************************************3*******************************************");
         allocate_new_channel(curr_chanel, ioctl_param);
         make_first_channel(curr_chanel, NULL, node, NULL);
         printk("*******************************************device_ioctl-2*******************************************");
@@ -108,16 +111,20 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
+            printk("*******************************************4*******************************************");
             if (curr_chanel->id == ioctl_param){
+                printk("*******************************************5*******************************************");
                 make_first_channel(curr_chanel, prev, node, old_first);
                 printk("*******************************************device_ioctl-2*******************************************");
                 return SUCCESS;
             }
             else{
+                printk("*******************************************6*******************************************");
                 prev = curr_chanel;
                 curr_chanel = curr_chanel->next;
             }
         }
+        printk("*******************************************7*******************************************");
         allocate_new_channel(curr_chanel, ioctl_param);
         make_first_channel(curr_chanel, prev, node, old_first);
         printk("*******************************************device_ioctl-2*******************************************");
