@@ -54,7 +54,7 @@ static int device_release( struct inode* inode, struct file*  file){
     return SUCCESS;
 }
 
- int allocate_new_channel (ms_channel *curr_chanel, unsigned long ioctl_param){
+ int allocate_new_channel (ms_channel **curr_chanel, unsigned long ioctl_param){
      printk("*******************************************allocate_new_channel-1*******************************************");
     curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
     if (curr_chanel == NULL){
@@ -104,7 +104,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     printk("*******************************************2*******************************************");
     if (  curr_chanel == NULL){
         printk("*******************************************3*******************************************");
-        allocate_new_channel(curr_chanel, ioctl_param);
+        allocate_new_channel(&curr_chanel, ioctl_param);
         make_first_channel(curr_chanel, NULL, node, NULL);
         printk("*******************************************device_ioctl-2*******************************************");
         return SUCCESS;
@@ -125,7 +125,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
             }
         }
         printk("*******************************************7*******************************************");
-        allocate_new_channel(curr_chanel, ioctl_param);
+        allocate_new_channel(&curr_chanel, ioctl_param);
         make_first_channel(curr_chanel, prev, node, old_first);
         printk("*******************************************device_ioctl-2*******************************************");
         return SUCCESS;
