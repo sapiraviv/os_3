@@ -99,7 +99,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
             }
             else{
                 prev = curr_chanel;
-                curr_chanel = curr_chanel->next;
+                curr_chanel = prev->next;
             }
         }
         allocate_new_channel(&curr_chanel, ioctl_param);
