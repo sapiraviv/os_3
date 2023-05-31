@@ -117,7 +117,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
         }
-        printk("**3***)";
+        printk("**3***");
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
