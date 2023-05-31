@@ -78,6 +78,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     old_first = curr_chanel;
     prev = curr_chanel;
     if (  curr_chanel == NULL){
+        printk("1");
         curr_chanel = kmalloc(sizeof(ms_channel), GFP_KERNEL);
         if (curr_chanel == NULL){
            printk("memory allocation failed");
@@ -93,6 +94,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
+            printk("2");
             if (curr_chanel->id == ioctl_param){
                 make_first_channel(curr_chanel, prev, node, old_first);
                 return SUCCESS;
@@ -112,6 +114,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
         }
+        printk("3");
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
