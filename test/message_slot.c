@@ -58,7 +58,7 @@ void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node
     }
     if (old_first == prev){
         prev->next = NULL;
-        curr_chanel->next = prev;
+        curr_chanel->next = old_first;
         return;
     }
     prev->next = curr_chanel->next;
