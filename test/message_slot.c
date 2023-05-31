@@ -207,7 +207,6 @@ static int __init simple_init(void){
         printk("memory allocation failed");
         return -ENOMEM;
     }
-    (msDriver->all_files)[f_minor].first = NULL
     return SUCCESS;
 }
 
