@@ -42,7 +42,6 @@ static ms_driver *msDriver;
 static int device_open( struct inode* inode, struct file* file){
     unsigned int f_minor = iminor(inode);
     ms_file* node = &(msDriver->all_files[f_minor]);
-    node->first = NULL;
     node->minor = f_minor;
     file->private_data = node;
     return SUCCESS;
