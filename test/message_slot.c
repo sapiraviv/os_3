@@ -95,14 +95,14 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
-            print("*****");
+            printk("*****");
             if (curr_chanel->id == ioctl_param){
-                print("**1***");
+                printk("**1***");
                 make_first_channel(curr_chanel, prev, node, old_first);
                 return SUCCESS;
             }
             else{
-                print("**2***");
+                printk("**2***");
                  prev = curr_chanel;
                  curr_chanel = prev->next;
             }
@@ -117,7 +117,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
         }
-        print("**3***)";
+        printk("**3***)";
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
