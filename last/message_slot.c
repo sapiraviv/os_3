@@ -42,6 +42,7 @@ static ms_driver *msDriver;
 static int device_open( struct inode* inode, struct file* file){
     unsigned int f_minor = iminor(inode);
     ms_file* node = &(msDriver->all_files[f_minor]);
+    node->first = NULL;
     node->minor = f_minor;
     file->private_data = node;
     return SUCCESS;
@@ -123,7 +124,7 @@ static ssize_t device_write( struct file*  file,const char __user* buffer, size_
     ms_file *node;
     node = (ms_file *)(file->private_data);
     channel = node->first;
-    if (channel == NULL ){
+    if (channel == NULL){
         printk("No channel has been set to the fd");
         return -EINVAL;
     }
