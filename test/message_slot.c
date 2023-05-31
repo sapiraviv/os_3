@@ -54,13 +54,16 @@ static int device_release( struct inode* inode, struct file*  file){
 void make_first_channel(ms_channel *curr_chanel, ms_channel *prev, ms_file *node, ms_channel *old_first){
     node->first = curr_chanel;
     if (old_first == NULL){
+        printk("1");
         return;
     }
     if (old_first == prev){
+        printk("2");
         prev->next = NULL;
         curr_chanel->next = old_first;
         return;
     }
+    printk("3");
     prev->next = curr_chanel->next;
     curr_chanel->next = old_first;
 }
@@ -92,11 +95,14 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
+            print("*****");
             if (curr_chanel->id == ioctl_param){
+                print("**1***");
                 make_first_channel(curr_chanel, prev, node, old_first);
                 return SUCCESS;
             }
             else{
+                print("**2***");
                  prev = curr_chanel;
                  curr_chanel = prev->next;
             }
@@ -111,6 +117,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
         }
+        print("**3***)";
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
