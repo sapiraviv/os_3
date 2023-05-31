@@ -85,6 +85,7 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
            return -ENOMEM;
          }
         else{
+          printk("2");
           curr_chanel->next = NULL;
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
@@ -94,8 +95,8 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
     }
     else{
         while ( curr_chanel != NULL ){
-            printk("2");
             if (curr_chanel->id == ioctl_param){
+                printk("3");
                 make_first_channel(curr_chanel, prev, node, old_first);
                 return SUCCESS;
             }
@@ -114,7 +115,6 @@ static long device_ioctl( struct file* file,unsigned int ioctl_command_id, unsig
           curr_chanel->id = ioctl_param;
           curr_chanel->message_len = 0;
         }
-        printk("3");
         make_first_channel(curr_chanel, prev, node, old_first);
         return SUCCESS;
     }
@@ -161,7 +161,7 @@ static ssize_t device_read( struct file* file, char __user* buffer,size_t length
        return -EINVAL;
     }
     if (channel->message_len == 0){
-        printk("Ne message exists on the channel");
+        printk("No message exists on the channel");
         return -EWOULDBLOCK;
     }
     if (channel->message_len > length){
